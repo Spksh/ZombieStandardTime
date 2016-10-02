@@ -26,27 +26,23 @@ We call this timezone _Zombie Standard Time_.
 
 **Enable simulated time**
 
-Simulate the persistent world as normal between play sessions.
-
-In-game time will proceed as Undead Labs intended.
+* Simulate the persistent world as normal between play sessions.
+* In-game time will proceed as Undead Labs intended.
 
 **Disable simulated time**
 
-Prevent simulation of the persistent world between play sessions.
-
-No in-game time will pass when you load your save game.
+* Prevent simulation of the persistent world between play sessions.
+* No in-game time will pass when you load your save game.
 
 **Limit simulated time**
 
-Allow simulation of the persistent world between play sessions up to a maximum real-world time span.
-
-If you haven't played for a week, pretend you've only been gone for an hour.
+* Allow simulation of the persistent world between play sessions up to a maximum real-world time span.
+* If you haven't played for a week, pretend you've only been gone for an hour.
 
 **Force simulated time**
 
-Force simulation of the persistent world between play sessions for a fixed real-world time span.
-
-Can your survivors last a month without you?
+* Force simulation of the persistent world between play sessions for a fixed real-world time span.
+* Can your survivors last a month without you?
 
 ## Instructions
 
@@ -66,19 +62,14 @@ Undead Labs _has not_ approved this launcher, and may change the game at any tim
 
 **Requirements**
 
-Zombie Standard Time requires [Steam](http://store.steampowered.com/) and a Steam-activated copy of [State of Decay](http://store.steampowered.com/app/241540/).
-
-If you're not using Windows 8, Zombie Standard Time requires [Microsoft .NET Framework 4.5](http://www.microsoft.com/en-us/download/details.aspx?id=30653).
-
-Windows 8 includes .NET Framework 4.5 out of the box, so you don't need to install anything.
-
-.NET Framework 4.5 requires Windows Vista SP2 or higher. That means Zombie Standard Time won't run on Windows XP!
-
-The latest version of Zombie Standard Time is v1.0.0.2.
+* Zombie Standard Time requires [Steam](http://store.steampowered.com/) and a Steam-activated copy of [State of Decay](http://store.steampowered.com/app/241540/).
+* If you're not using Windows 8, Zombie Standard Time requires [Microsoft .NET Framework 4.5](http://www.microsoft.com/en-us/download/details.aspx?id=30653).
+   * Windows 8 includes .NET Framework 4.5 out of the box, so you don't need to install anything.
+* .NET Framework 4.5 requires Windows Vista SP2 or higher. That means Zombie Standard Time won't run on Windows XP!
 
 **To use Zombie Standard Time:**
 
-1.  Download [ZombieStandardTime.zip](https://github.com/Spksh/ZombieStandardTime/releases/download/v1.0.0.2/ZombieStandardTime.1.0.0.2.zip)
+1.  Download [ZombieStandardTime.zip](https://github.com/Spksh/ZombieStandardTime/releases/download/v1.0.0.2/ZombieStandardTime.1.0.0.2.zip).
 2.  Unzip to a folder on your hard drive
 3.  Run ZombieStandardTime.exe
 4.  Select your Steam profile and set persistent world options
