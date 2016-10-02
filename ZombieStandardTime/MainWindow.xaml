@@ -1,0 +1,598 @@
+﻿<Window x:Class="ZombieStandardTime.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:zst="clr-namespace:ZombieStandardTime"
+        xmlns:controls="clr-namespace:ZombieStandardTime.Controls"
+        mc:Ignorable="d"
+        d:DataContext="{d:DesignInstance Type=zst:ViewModel, IsDesignTimeCreatable=True}"
+        Title="Zombie Standard Time" 
+        Width="700" 
+        Height="Auto" 
+        SizeToContent="Height"
+        ResizeMode="NoResize" 
+        WindowStartupLocation="CenterScreen" 
+        SnapsToDevicePixels="True" 
+        Icon="Icon.ico">
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="WindowResources.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <Style x:Key="{x:Type ToolTip}" TargetType="ToolTip">
+                <Setter Property="Width" Value="{Binding Source={x:Reference Name=TooltipPlacementTarget}, Path=ActualWidth}" />
+                <Setter Property="Height" Value="{Binding Source={x:Reference Name=TooltipPlacementTarget}, Path=ActualHeight}" />
+                <Setter Property="OverridesDefaultStyle" Value="true"/>
+                <Setter Property="HasDropShadow" Value="False"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="ToolTip">
+                            <Grid                                    
+                            Width="{TemplateBinding Width}"
+                            Height="{TemplateBinding Height}">
+                                <Border CornerRadius="3" 
+                                    BorderThickness="0" 
+                                    Background="#e5323232" 
+                                    Margin="0,7,7,9"
+                                    Padding="10">
+                                    <StackPanel>
+                                        <ContentPresenter />
+                                    </StackPanel>
+                                </Border>
+                            </Grid>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <Grid IsSharedSizeScope="True">
+
+        <Grid.Background>
+            <VisualBrush Stretch="None" Visual="{StaticResource WindowBackground}" AlignmentX="Right" AlignmentY="Bottom" Opacity="0.5" >
+                <VisualBrush.RelativeTransform>
+                    <TransformGroup>
+                        <TranslateTransform X="-0.025" Y="-0.025"/>
+                    </TransformGroup>
+                </VisualBrush.RelativeTransform>
+            </VisualBrush>
+        </Grid.Background>
+
+        <Grid>
+
+            <Grid.Background>
+                <VisualBrush Stretch="None" Visual="{StaticResource GridBackground}" AlignmentX="Right" AlignmentY="Bottom" Opacity="1" >
+                    <VisualBrush.RelativeTransform>
+                        <TransformGroup>
+                            <TranslateTransform X="-0.05" Y="-0.05"/>
+                        </TransformGroup>
+                    </VisualBrush.RelativeTransform>
+                </VisualBrush>
+            </Grid.Background>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="225" />
+            </Grid.ColumnDefinitions>
+
+            <!--Visibility="{Binding Path=LaunchFailed, Converter={StaticResource BooleanToVisibility}}"-->
+            
+            <Border
+                Grid.Row="0" 
+                Grid.Column="0"
+                Visibility="{Binding Path=NewVersionAvailable, Converter={StaticResource BooleanToVisibility}}"
+                Margin="7"
+                Padding="7"
+                BorderBrush="ForestGreen"
+                Background="YellowGreen"
+                BorderThickness="1"
+                CornerRadius="3">
+                <TextBlock
+                    TextWrapping="Wrap"
+                    Foreground="White">
+                    <TextBlock.Inlines>
+                        <Span FontWeight="Bold">A new version of Zombie Standard Time is available!</Span>
+                        <LineBreak />
+                        <LineBreak />
+                        <Span>
+                            You're using version
+                            <Run Text="{Binding Version, Mode=OneWay}" />
+                            and the latest version available is
+                            <Run Text="{Binding NewVersion, Mode=OneWay}" /> .
+                        We've probably fixed some bugs or added some cool features, so we recommend you get the new version right now.
+                        </Span>
+                        <LineBreak/>
+                        <LineBreak/>
+                        <Span >
+                            Download the latest version for free from
+                            <Hyperlink Foreground="Gray" NavigateUri="http://zombiestandardtime.com" RequestNavigate="Hyperlink_RequestNavigate" TextDecorations="{x:Null}">
+                                http://zombiestandardtime.com
+                            </Hyperlink>
+                        </Span>
+
+                    </TextBlock.Inlines>
+                </TextBlock>
+            </Border>
+
+
+            <Grid
+                Grid.Row="0" 
+                Grid.Column="1"
+                RowSpan="7"
+                x:Name="TooltipPlacementTarget" />
+
+            <Button 
+                Grid.Row="1" 
+                Grid.Column="0"
+                Click="Launch_Click" 
+                FontSize="18" 
+                Padding="10" 
+                Margin="7,7,7,3"
+                IsEnabled="{Binding Launched, Converter={StaticResource InverseBooleanConverter}}"
+                ToolTipService.ShowOnDisabled="True"
+                ToolTipService.Placement="Relative"
+                ToolTipService.HorizontalOffset="0"
+                ToolTipService.VerticalOffset="0"
+                ToolTipService.InitialShowDelay="100"
+                ToolTipService.ShowDuration="360000"
+                ToolTipService.BetweenShowDelay="0"
+                ToolTipService.PlacementTarget="{Binding ElementName=TooltipPlacementTarget}">
+
+                <Button.ToolTip>
+                    <ToolTip>
+                        <TextBlock Foreground="#f0f0f0" TextWrapping="Wrap">
+                            <TextBlock.Inlines>
+                                <Span>
+                                    <Bold>Zombie Standard Time</Bold>
+                                    is a launcher for State of Decay that lets
+                                    <Bold>you</Bold>
+                                    control the time zone of the persistent world.
+                                </Span>
+                                <LineBreak />
+                                <LineBreak />
+                                <Span>
+                                    State of Decay simulates in-game events in the persistent world while you're not playing the game. 
+                                    Survivors hunt and gather, use resources, and die horrible and messy deaths without you.
+                                </Span>
+                                <LineBreak />
+                                <LineBreak />
+                                <Span>
+                                    The amount of time since your last play session is used to calculate these in-game events and the passage of time in the persistent world.
+                                    The longer you don't play the game, the longer your survivors have to fend for themselves without you.
+                                </Span>
+                                <LineBreak />
+                                <LineBreak />                                
+                                <Span>
+                                    <Bold>Zombie Standard Time</Bold>
+                                    lies to State of Decay about the current time in the real world, allowing you to control how much time has passed since you last played.
+                                </Span>
+                            </TextBlock.Inlines>
+                        </TextBlock>
+                    </ToolTip>
+                </Button.ToolTip>
+                
+
+                Launch State of Decay
+            </Button>
+
+            <Button 
+                Grid.Row="2" 
+                Grid.Column="0"
+                Click="RestoreAndLaunch_Click" 
+                FontSize="18" 
+                Padding="10" 
+                Margin="7,7,7,3"
+                IsEnabled="{Binding Launched, Converter={StaticResource InverseBooleanConverter}}"
+                ToolTipService.ShowOnDisabled="True"
+                ToolTipService.Placement="Relative"
+                ToolTipService.HorizontalOffset="0"
+                ToolTipService.VerticalOffset="0"
+                ToolTipService.InitialShowDelay="100"
+                ToolTipService.ShowDuration="360000"
+                ToolTipService.BetweenShowDelay="0"
+                ToolTipService.PlacementTarget="{Binding ElementName=TooltipPlacementTarget}">
+
+                <Button.ToolTip>
+                    <ToolTip>
+                        <TextBlock Foreground="#f0f0f0" TextWrapping="Wrap">
+                            <TextBlock.Inlines>
+                                <Span>
+                                    <Bold>Restore previous backup</Bold>,
+                                    if one exists,
+                                    and
+                                    <Bold>launch State of Decay</Bold>.
+                                </Span>
+                            </TextBlock.Inlines>
+                        </TextBlock>
+                    </ToolTip>
+                </Button.ToolTip>
+                Restore last backup and launch State of Decay
+            </Button>
+
+            <Border
+                Grid.Row="3" 
+                Grid.Column="0"
+                Visibility="{Binding Path=LaunchFailed, Converter={StaticResource BooleanToVisibility}}"
+                Margin="7"
+                Padding="7"
+                BorderBrush="DarkRed"
+                Background="Red"
+                BorderThickness="1"
+                CornerRadius="3">
+                <TextBlock
+                    TextWrapping="Wrap"
+                    Foreground="White"
+                    FontWeight="Bold"
+                    Text="{Binding Path=LaunchMessage}"/>
+            </Border>
+
+
+            <GroupBox 
+                Grid.Row="4" 
+                Grid.Column="0" 
+                Header="Steam"
+                ToolTipService.ShowOnDisabled="True"
+                ToolTipService.Placement="Relative"
+                ToolTipService.HorizontalOffset="0"
+                ToolTipService.VerticalOffset="0"
+                ToolTipService.InitialShowDelay="100"
+                ToolTipService.ShowDuration="360000"
+                ToolTipService.BetweenShowDelay="0"
+                ToolTipService.PlacementTarget="{Binding ElementName=TooltipPlacementTarget}">
+
+                <GroupBox.ToolTip>
+                    <ToolTip>
+                        <TextBlock Foreground="#f0f0f0" TextWrapping="Wrap">
+                            <TextBlock.Inlines>
+                                <Span>
+                                    <Bold>Steam Account:</Bold>
+                                    Select the Steam account you are currently logged in as.
+                                </Span>
+                                <LineBreak />
+                                <LineBreak />
+                                <Span>
+                                    <Bold>Path to game:</Bold>
+                                    The location of StateOfDecay.exe is autodetected. 
+                                    You can override the detected path by enabling 'Override'.
+                                </Span>
+                                <LineBreak />
+                                <LineBreak />
+                                <Span>
+                                    <Bold>Launch options:</Bold>
+                                    Any command-line options for the game executable.
+                                </Span>
+                            </TextBlock.Inlines>
+                        </TextBlock>
+                    </ToolTip>
+                </GroupBox.ToolTip>
+
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" SharedSizeGroup="FieldLabels" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" SharedSizeGroup="Overrides" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <Label 
+                        Grid.Column="0" 
+                        Grid.Row="0"
+                        HorizontalAlignment="Left" 
+                        VerticalAlignment="Center">Steam Profile</Label>
+                    <ComboBox 
+                        Name="Account"
+                        ItemsSource="{Binding Path=Accounts}" 
+                        SelectedValue="{Binding Path=Account, Mode=TwoWay}"
+                        Grid.Column="1" 
+                        Grid.ColumnSpan="2"
+                        Grid.Row="0"/>
+
+                    <Label 
+                        Grid.Column="0" 
+                        Grid.Row="1"
+                        HorizontalAlignment="Left" 
+                        VerticalAlignment="Center">Path to game</Label>
+                    <Grid
+                        Grid.Column="1" 
+                        Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <TextBox 
+                            Grid.Column="0" 
+                            IsReadOnly="{Binding IsChecked, ElementName=OverridePathToGame, Converter={StaticResource InverseBooleanConverter}}"
+                            Text="{Binding Path=PathToGame, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        <Button 
+                            Grid.Column="1"
+                            IsEnabled="{Binding IsChecked, ElementName=OverridePathToGame}" 
+                            Click="OverridePathToGame_Click">Browse</Button>
+                    </Grid>
+                    <ToggleButton
+                        x:Name="OverridePathToGame"
+                        Grid.Column="2" 
+                        Grid.Row="1"
+                        IsChecked="{Binding Path=OverridePathToGame, Mode=TwoWay}">Override</ToggleButton>
+
+                    <Label 
+                        Grid.Column="0" 
+                        Grid.Row="2"
+                        HorizontalAlignment="Left" 
+                        VerticalAlignment="Center">Launch options</Label>
+                    <TextBox                     
+                        Grid.Column="1" 
+                        Grid.Row="2"
+                        Grid.ColumnSpan="2"
+                        Text="{Binding Path=LaunchOptions, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                </Grid>
+
+            </GroupBox>
+
+            <GroupBox 
+                Grid.Row="5" 
+                Grid.Column="0" 
+                Header="Save Games"
+                ToolTipService.ShowOnDisabled="True"
+                ToolTipService.Placement="Relative"
+                ToolTipService.HorizontalOffset="0"
+                ToolTipService.VerticalOffset="0"
+                ToolTipService.InitialShowDelay="100"
+                ToolTipService.ShowDuration="360000"
+                ToolTipService.BetweenShowDelay="0"
+                ToolTipService.PlacementTarget="{Binding ElementName=TooltipPlacementTarget}">
+
+                <GroupBox.ToolTip>
+                    <ToolTip>
+                        <TextBlock Foreground="#f0f0f0" TextWrapping="Wrap">
+                            <TextBlock.Inlines>
+                                <Span>
+                                    <Bold>Path to user data:</Bold>
+                                    The location of your profile's save game folder is autodetected. 
+                                    You can override the detected path by enabling 'Override'.
+                                </Span>
+                                <LineBreak />
+                                <LineBreak />
+                                <Span>
+                                    <Bold>Backup on game start:</Bold>
+                                    Enable this option to take a backup of the current save game every time you launch State of Decay.
+                                    The backup will be placed in the parent directory of the user data path above.
+                                </Span>
+                            </TextBlock.Inlines>
+                        </TextBlock>
+                    </ToolTip>
+                </GroupBox.ToolTip>
+
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" SharedSizeGroup="FieldLabels"/>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" SharedSizeGroup="Overrides"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <Label 
+                        Grid.Column="0" 
+                        Grid.Row="0"
+                        HorizontalAlignment="Left" 
+                        VerticalAlignment="Center">Path to user data</Label>
+                    <Grid
+                        Grid.Column="1" 
+                        Grid.Row="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <TextBox 
+                            Grid.Column="0"
+                            IsReadOnly="{Binding IsChecked, ElementName=OverridePathToUserData, Converter={StaticResource InverseBooleanConverter}}"
+                            Text="{Binding Path=PathToUserData, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                        <Button 
+                            Grid.Column="1"
+                            IsEnabled="{Binding IsChecked, ElementName=OverridePathToUserData}" 
+                            Click="OverridePathToUserData_Click">Browse</Button>
+                    </Grid>
+                    <ToggleButton
+                        x:Name="OverridePathToUserData"
+                        Grid.Column="2" 
+                        Grid.Row="0"
+                        IsChecked="{Binding Path=OverridePathToUserData, Mode=TwoWay}">Override</ToggleButton>
+
+                    <CheckBox
+                        Grid.Column="1" 
+                        Grid.Row="1" 
+                        HorizontalAlignment="Left" 
+                        VerticalAlignment="Center"
+                        IsChecked="{Binding Path=BackupOnGameStart, Mode=TwoWay}">Backup on game start</CheckBox>
+                </Grid>
+            </GroupBox>
+
+            <GroupBox 
+                Grid.Row="6" 
+                Grid.Column="0" 
+                Header="Persistent World"
+                Margin="7,3,7,7"
+                ToolTipService.ShowOnDisabled="True"
+                ToolTipService.Placement="Relative"
+                ToolTipService.HorizontalOffset="0"
+                ToolTipService.VerticalOffset="0"
+                ToolTipService.InitialShowDelay="100"
+                ToolTipService.ShowDuration="360000"
+                ToolTipService.BetweenShowDelay="0"
+                ToolTipService.PlacementTarget="{Binding ElementName=TooltipPlacementTarget}">
+
+                <GroupBox.ToolTip>
+                    <ToolTip>
+                        <TextBlock Foreground="#f0f0f0" TextWrapping="Wrap">
+                            <TextBlock.Inlines>
+                                <Span>
+                                    <Bold>Enable simulated time:</Bold>
+                                    Simulate the persistent world as normal between play sessions.
+                                </Span>
+                                <LineBreak />
+                                <LineBreak />
+                                <Span>
+                                    <Bold>Disable simulated time:</Bold>
+                                    Prevent simulation of the persistent world between play sessions. No in-game time will pass when you load your save game.
+                                </Span>
+                                <LineBreak />
+                                <LineBreak />
+                                <Span>
+                                    <Bold>Limit simulated time:</Bold>
+                                    Allow simulation of the persistent world between play sessions up to a maximum real-world time span.
+                                </Span>
+                                <LineBreak />
+                                <LineBreak />
+                                <Span>
+                                    <Bold>Force simulated time:</Bold>
+                                    Force simulation of the persistent world between play sessions for a fixed real-world time span. Can your survivors last a month without you?
+                                </Span>
+                            </TextBlock.Inlines>
+                        </TextBlock>
+                    </ToolTip>
+                </GroupBox.ToolTip>
+
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" SharedSizeGroup="FieldLabels"/>
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <RadioButton
+                        Grid.Column="1" 
+                        Grid.Row="0" 
+                        HorizontalAlignment="Left" 
+                        VerticalAlignment="Center"
+                        GroupName="PersistentWorld"
+                        IsChecked="{Binding Path=EnableSimulatedTime, Mode=TwoWay}">Enable simulated time</RadioButton>
+
+                    <RadioButton
+                        Grid.Column="1" 
+                        Grid.Row="1" 
+                        HorizontalAlignment="Left" 
+                        VerticalAlignment="Center"
+                        GroupName="PersistentWorld"
+                        IsChecked="{Binding Path=DisableSimulatedTime, Mode=TwoWay}">Disable simulated time</RadioButton>
+
+                    <RadioButton
+                        x:Name="LimitSimulatedTime"
+                        Grid.Column="1" 
+                        Grid.Row="2" 
+                        HorizontalAlignment="Left" 
+                        VerticalAlignment="Center"
+                        GroupName="PersistentWorld"
+                        IsChecked="{Binding Path=LimitSimulatedTime, Mode=TwoWay}">Limit simulated time</RadioButton>
+                    <Grid 
+                        Grid.Column="1" 
+                        Grid.Row="3"
+                        Visibility="{Binding IsChecked, ElementName=LimitSimulatedTime, Converter={StaticResource BooleanToVisibility}}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" SharedSizeGroup="TimeSpanNumber"/>
+                            <ColumnDefinition Width="Auto" SharedSizeGroup="TimeSpanSeparator"/>
+                            <ColumnDefinition Width="Auto" SharedSizeGroup="TimeSpanNumber"/>
+                            <ColumnDefinition Width="Auto" SharedSizeGroup="TimeSpanSeparator"/>
+                            <ColumnDefinition Width="Auto" SharedSizeGroup="TimeSpanNumber"/>
+                            <ColumnDefinition Width="Auto" SharedSizeGroup="TimeSpanSeparator"/>
+                            <ColumnDefinition Width="Auto" SharedSizeGroup="TimeSpanNumber"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Label Grid.Column="0" Grid.Row="0">Days</Label>
+                        <Label Grid.Column="1" Grid.Row="0">.</Label>
+                        <Label Grid.Column="2" Grid.Row="0">Hours</Label>
+                        <Label Grid.Column="3" Grid.Row="0">:</Label>
+                        <Label Grid.Column="4" Grid.Row="0">Minutes</Label>
+                        <Label Grid.Column="5" Grid.Row="0">:</Label>
+                        <Label Grid.Column="6" Grid.Row="0">Seconds</Label>
+                        <controls:TimeControl Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="7" Value="{Binding Path=SimulatedTimeLimit, Mode=TwoWay}"/>
+                    </Grid>
+
+                    <RadioButton
+                        x:Name="ForceSimulatedTime"
+                        Grid.Column="1" 
+                        Grid.Row="4" 
+                        HorizontalAlignment="Left" 
+                        VerticalAlignment="Center"
+                        GroupName="PersistentWorld"
+                        IsChecked="{Binding Path=ForceSimulatedTime, Mode=TwoWay}">Force simulated time</RadioButton>
+                    <Grid 
+                        Grid.Column="1" 
+                        Grid.Row="5"
+                        Visibility="{Binding IsChecked, ElementName=ForceSimulatedTime, Converter={StaticResource BooleanToVisibility}}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" SharedSizeGroup="TimeSpanNumber"/>
+                            <ColumnDefinition Width="Auto" SharedSizeGroup="TimeSpanSeparator"/>
+                            <ColumnDefinition Width="Auto" SharedSizeGroup="TimeSpanNumber"/>
+                            <ColumnDefinition Width="Auto" SharedSizeGroup="TimeSpanSeparator"/>
+                            <ColumnDefinition Width="Auto" SharedSizeGroup="TimeSpanNumber"/>
+                            <ColumnDefinition Width="Auto" SharedSizeGroup="TimeSpanSeparator"/>
+                            <ColumnDefinition Width="Auto" SharedSizeGroup="TimeSpanNumber"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Label Grid.Column="0" Grid.Row="0">Days</Label>
+                        <Label Grid.Column="1" Grid.Row="0">.</Label>
+                        <Label Grid.Column="2" Grid.Row="0">Hours</Label>
+                        <Label Grid.Column="3" Grid.Row="0">:</Label>
+                        <Label Grid.Column="4" Grid.Row="0">Minutes</Label>
+                        <Label Grid.Column="5" Grid.Row="0">:</Label>
+                        <Label Grid.Column="6" Grid.Row="0">Seconds</Label>
+                        <controls:TimeControl Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="7" Value="{Binding Path=ForcedSimulatedTime, Mode=TwoWay}"/>
+                    </Grid>
+
+                </Grid>
+            </GroupBox>
+            
+            <TextBlock 
+                Grid.Column="0" 
+                Grid.Row="7" 
+                Grid.ColumnSpan="2"
+                Margin="10,0,10,10"
+                Foreground="DarkGray">
+                <TextBlock.Inlines>
+                    <Run>Zombie Standard Time</Run>
+                    <Run Text="{Binding Version, Mode=OneWay}" />
+                    <Run>|</Run>
+                    <Hyperlink Foreground="Gray" NavigateUri="http://zombiestandardtime.com" RequestNavigate="Hyperlink_RequestNavigate" TextDecorations="{x:Null}">http://zombiestandardtime.com</Hyperlink>
+                    <Span>| Art by</Span>
+                    <Hyperlink Foreground="Gray" NavigateUri="http://freegrunge.com/" RequestNavigate="Hyperlink_RequestNavigate" TextDecorations="{x:Null}">http://freegrunge.com/</Hyperlink>
+                </TextBlock.Inlines>
+            </TextBlock>
+            
+        </Grid>
+    </Grid>
+</Window>

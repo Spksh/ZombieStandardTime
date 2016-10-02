@@ -1,0 +1,63 @@
+﻿<UserControl x:Class="ZombieStandardTime.Controls.TimeControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             Height="Auto" 
+             Width="Auto">
+    <Grid Width="Auto" Height="Auto">
+        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" SharedSizeGroup="TimeSpanNumber"/>
+            <ColumnDefinition Width="Auto" SharedSizeGroup="TimeSpanSeparator"/>
+            <ColumnDefinition Width="Auto" SharedSizeGroup="TimeSpanNumber"/>
+            <ColumnDefinition Width="Auto" SharedSizeGroup="TimeSpanSeparator"/>
+            <ColumnDefinition Width="Auto" SharedSizeGroup="TimeSpanNumber"/>
+            <ColumnDefinition Width="Auto" SharedSizeGroup="TimeSpanSeparator"/>
+            <ColumnDefinition Width="Auto" SharedSizeGroup="TimeSpanNumber"/>
+        </Grid.ColumnDefinitions>
+
+        <TextBox 
+            Grid.Column="0" 
+            Text="{Binding Path=Days, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+            TextAlignment="Center" 
+            VerticalAlignment="Center" />
+
+        <TextBlock 
+            Grid.Column="1" 
+            Text="." 
+            Background="{x:Null}" 
+            VerticalAlignment="Center" 
+            TextAlignment="Center"/>
+
+        <TextBox 
+            Grid.Column="2" 
+            Text="{Binding Path=Hours, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+            TextAlignment="Center" 
+            VerticalAlignment="Center" />
+
+        <TextBlock 
+            Grid.Column="3" 
+            Text=":" 
+            Background="{x:Null}" 
+            VerticalAlignment="Center" 
+            TextAlignment="Center"/>
+
+        <TextBox 
+            Grid.Column="4" 
+            Text="{Binding Path=Minutes, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+            TextAlignment="Center" 
+            VerticalAlignment="Center" />
+
+        <TextBlock 
+            Grid.Column="5"
+            Text=":" Background="{x:Null}" 
+            VerticalAlignment="Center" 
+            TextAlignment="Center"/>
+
+        <TextBox 
+            Grid.Column="6" 
+            Text="{Binding Path=Seconds, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+            TextAlignment="Center" 
+            VerticalAlignment="Center" />
+
+    </Grid>
+</UserControl>
